@@ -49,4 +49,4 @@ $ null
 ```      
 
 ## Is [function a](https://github.com/tikisailor/expert-solidity-bootcamp/tree/main/Homework4/foundryProject/ValidSolidity.sol) valid solidity?     
---> Yes. See `testValidSolidity()` [here](https://github.com/tikisailor/expert-solidity-bootcamp/tree/main/Homework4/foundryProject/Foo.t.sol).
+--> Yes. See `testValidSolidity()` [here](https://github.com/tikisailor/expert-solidity-bootcamp/tree/main/Homework4/foundryProject/test/Foo.t.sol).
