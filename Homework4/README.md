@@ -48,5 +48,5 @@ $ cast rpc anvil_impersonateAccount $LUCKY_USER
 $ null
 ```      
 
-## Is [function a](https://github.com/tikisailor/expert-solidity-bootcamp/tree/main/Homework4/foundryProject/ValidSolidity.sol) valid solidity?     
+## Is [function a](https://github.com/tikisailor/expert-solidity-bootcamp/tree/main/Homework4/foundryProject/src/ValidSolidity.sol) valid solidity?     
 --> Yes. See `testValidSolidity()` [here](https://github.com/tikisailor/expert-solidity-bootcamp/tree/main/Homework4/foundryProject/test/Foo.t.sol).
