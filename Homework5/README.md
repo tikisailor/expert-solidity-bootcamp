@@ -26,7 +26,8 @@
     ```
     3. (optional) write this again in opcodes   
     ```
-    PUSH2 0x07 0x08
+    PUSH1 0x07
+    PUSH1 0x08
     ADD
     PUSH1 0x80
     MSTORE
