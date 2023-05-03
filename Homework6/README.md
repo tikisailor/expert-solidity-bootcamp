@@ -33,7 +33,7 @@ create                     // creates contract at address2 with contract account
 selfdestruct               // halt execution
 ```    
       
-3. Explain what the following code is doing in the Yul ERC20 contract     
+3. Explain what the following code is doing in the [Yul ERC20 contract](https://docs.soliditylang.org/en/v0.8.15/yul.html#complete-erc20-example)  
 ```
 function allowanceStorageOffset(account, spender) -> offset {
 offset := accountToStorageOffset(account)
@@ -42,4 +42,4 @@ mstore(0x20, spender)
 offset := keccak256(0, 0x40)
 }
 ```   
---> It creates a unique storage location used to store spending allowance for account&spender as keccak256(account+0x1000, spender)
+--> It creates a unique storage location used to store spending allowance for account&spender at keccak256(account+0x1000, spender)
