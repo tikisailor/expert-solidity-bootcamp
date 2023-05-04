@@ -32,6 +32,8 @@ pop                        // stack: 0 23 CS
 create                     // creates contract at address2 with contract account balance of 0, stack: addr2
 selfdestruct               // halt execution
 ```    
+
+--> It is creating copies of itself including initializer. It would cause it to continue until it runs out of gas.
       
 3. Explain what the following code is doing in the [Yul ERC20 contract](https://docs.soliditylang.org/en/v0.8.15/yul.html#complete-erc20-example)  
 ```
