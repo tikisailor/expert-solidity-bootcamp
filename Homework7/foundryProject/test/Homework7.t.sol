@@ -6,9 +6,6 @@ import { console2 } from "forge-std/console2.sol";
 import { StdCheats } from "forge-std/StdCheats.sol";
 import { Question1 } from "src/Question1.sol";
 import { Question2 } from "src/Question2.sol";
-import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-// import { ExpectEmit } from "forge-std/Test.sol";
-
 
 interface IERC20 {
     function balanceOf(address account) external view returns (uint256);
@@ -78,9 +75,6 @@ contract Homework7Test is PRBTest, StdCheats {
 
         // Call query function
         q1.query(200000000000, receiver, IERC20(usdc).transfer);
-
-        // Receiver has amount usdc
-        // assertEq(IERC20(usdc).balanceOf(receiver), amount);
 
     }
 

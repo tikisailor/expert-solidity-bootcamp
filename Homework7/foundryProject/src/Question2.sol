@@ -1,11 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-
 contract Question2 {
-
-    event transferOccurred(address,uint256);
 
     bytes32 eventSigHash = keccak256(abi.encodePacked('transferOccurred(address,uint256)'));
 
@@ -27,11 +23,6 @@ contract Question2 {
                 }
                 v := calldataload(pos)
             }
-
-            // function emitEvent(offset, length, signatureHash) {
-            //     mstore(0, nonIndexed)
-            //     log0(0, 0x20, signatureHash, indexed1, indexed2)
-            // }
 
             switch selector()
             case 0x80f394b8 /* "checkCall(bytes calldata data)" */ {

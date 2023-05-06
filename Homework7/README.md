@@ -22,7 +22,7 @@ The data parameter is bytes encoded representing the following
 - Target address
 - Amount (uint256)
 Complete the function body as follows: The function should revert if the function is not an ERC20 transfer function.
-Otherwise extract the address and amount from the data variable and emit an event with those details
-`event transferOccurred(address,uint256);`
-[solution](https://github.com/tikisailor/expert-solidity-bootcamp/tree/main/Homework7/foundryProject/src/Question2.sol)
+Otherwise extract the address and amount from the data variable and emit an event with those details:     
+`event transferOccurred(address,uint256);`     
+[solution](https://github.com/tikisailor/expert-solidity-bootcamp/tree/main/Homework7/foundryProject/src/Question2.sol)      
 [test](https://github.com/tikisailor/expert-solidity-bootcamp/tree/main/Homework7/foundryProject/test/Homework7.t.sol) 
