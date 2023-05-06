@@ -61,6 +61,29 @@ contract Homework7Test is PRBTest, StdCheats {
 
     }
 
+    function test_revertsQuestion1() external {
+        console2.log("Testing Q1");
+
+        // constants
+        address usdc = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
+        address receiver = 0x3243Ed9fdCDE2345890DDEAf6b083CA4cF0F68f2;
+
+        // Fork mainnet
+        vm.createSelectFork({ urlOrAlias: "mainnet", blockNumber: 16_428_000 });
+
+        // Instantiate Question1 contract
+        Question1 q1 = new Question1();
+
+        vm.expectRevert();
+
+        // Call query function
+        q1.query(200000000000, receiver, IERC20(usdc).transfer);
+
+        // Receiver has amount usdc
+        // assertEq(IERC20(usdc).balanceOf(receiver), amount);
+
+    }
+
     function test_Question2() external {
         console2.log("Testing Q2");
 
