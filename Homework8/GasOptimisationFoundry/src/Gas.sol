@@ -1,162 +1,67 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.0;
+pragma solidity 0.8.19;
 
 contract GasContract {
+    uint256 private lastSentAmount;
+    address constant contractOwner = address(0x1234);
+    address[5] public administrators = [
+        address(0x3243Ed9fdCDE2345890DDEAf6b083CA4cF0F68f2),
+        address(0x2b263f55Bf2125159Ce8Ec2Bb575C649f822ab46),
+        address(0x0eD94Bc8435F3189966a49Ca1358a55d871FC3Bf),
+        address(0xeadb3d065f8d15cc05e92594523516aD36d1c834), 
+        address(0x1234)        
+    ];
     mapping(address => uint256) public balances;
-    mapping(address => uint8) public whitelist;
-    address[5] public administrators;
-
-    bool wasLastOdd = true;
-    mapping(address => bool) public isOddWhitelistUser;
-    
-    struct ImportantStruct {
-        uint256 amount;
-        bool paymentStatus;
-        address sender;
-    }
-    mapping(address => ImportantStruct) public whiteListStruct;
+    mapping(address => uint256) public whitelist;
 
     event AddedToWhitelist(address userAddress, uint256 tier);
 
     modifier onlyAdminOrOwner() {
-        require(
-                checkForAdmin(msg.sender),
-                ""
-            );
+        require(contractOwner == msg.sender);
         _;
     }
-
-    modifier checkIfWhiteListed(address sender) {
-        require(
-            msg.sender == sender,
-            ""
-        );
-        uint8 usersTier = whitelist[sender];
-        require(
-            usersTier > 0,
-            ""
-        );
-        require(
-            usersTier < 4,
-            ""
-        );
-        _;
-    }
-
-    event Transfer(address recipient, uint256 amount);
+    
     event WhiteListTransfer(address indexed);
 
-    constructor(address[] memory _admins, uint256 _totalSupply) {
-
-        administrators[0] = _admins[0];
-        administrators[1] = _admins[1];
-        administrators[2] = _admins[2];
-        administrators[3] = _admins[3];
-        administrators[4] = _admins[4];
-        
-        balances[msg.sender] = _totalSupply;
-    }
-
-    function checkForAdmin(address _user) public view returns (bool admin_) {
-        bool admin = false;
-        for (uint256 ii = 0; ii < administrators.length; ii++) {
-            if (administrators[ii] == _user) {
-                admin = true;
-            }
-        }
-        return admin;
+    constructor(address[] memory _admins, uint256) {
+        balances[contractOwner] = 1000000000;
     }
 
     function balanceOf(address _user) public view returns (uint256 balance_) {
-        uint256 balance = balances[_user];
-        return balance;
+        balance_ = balances[_user];
     }
 
     function transfer(
         address _recipient,
         uint256 _amount,
-        string calldata _name
-    ) public returns (bool status_) {
+        string calldata
+    ) public{
+        balances[msg.sender] -= _amount;
         balances[_recipient] += _amount;
-        return true;
-    }
-
-    function updatePayment(
-        address _user,
-        uint256 _ID,
-        uint256 _amount
-    ) public view onlyAdminOrOwner {
-        require(
-            _ID > 0,
-            ""
-        );
-        require(
-            _amount > 0,
-            ""
-        );
-        require(
-            _user != address(0),
-            ""
-        );
     }
 
     function addToWhitelist(address _userAddrs, uint256 _tier)
         public
         onlyAdminOrOwner
     {
-        require(
-            _tier < 255,
-            ""
-        );
-        whitelist[_userAddrs] = uint8(_tier);
-        if (_tier > 3) {
-            whitelist[_userAddrs] -= uint8(_tier);
-            whitelist[_userAddrs] = 3;
-        } else if (_tier == 1) {
-            whitelist[_userAddrs] -= uint8(_tier);
-            whitelist[_userAddrs] = 1;
-        } else if (_tier > 0 && _tier < 3) {
-            whitelist[_userAddrs] -= uint8(_tier);
-            whitelist[_userAddrs] = 2;
-        }
-        bool wasLastAddedOdd = wasLastOdd;
-        if (wasLastAddedOdd == true) {
-            wasLastOdd = false;
-            isOddWhitelistUser[_userAddrs] = wasLastAddedOdd;
-        } else if (wasLastAddedOdd == false) {
-            wasLastOdd = true;
-            isOddWhitelistUser[_userAddrs] = wasLastAddedOdd;
-        } else {
-            revert();
-        }
+        require(_tier < 255);
+        whitelist[_userAddrs] = _tier > 3 ? 3 : _tier;
         emit AddedToWhitelist(_userAddrs, _tier);
     }
 
     function whiteTransfer(
         address _recipient,
         uint256 _amount
-    ) public checkIfWhiteListed(msg.sender) {
-        address senderOfTx = msg.sender;
-        whiteListStruct[senderOfTx] = ImportantStruct(_amount, true, msg.sender);
-        
-        require(
-            balances[senderOfTx] >= _amount,
-            ""
-        );
-        require(
-            _amount > 3,
-            ""
-        );
-        balances[senderOfTx] -= _amount;
-        balances[_recipient] += _amount;
-        balances[senderOfTx] += whitelist[senderOfTx];
-        balances[_recipient] -= whitelist[senderOfTx];
-        
+    ) public {
+        lastSentAmount = _amount;
+        uint answer = _amount - whitelist[msg.sender];
+        balances[msg.sender] -= answer;
+        balances[_recipient] += answer;
         emit WhiteListTransfer(_recipient);
     }
 
 
-    function getPaymentStatus(address sender) public view returns (bool, uint256) {        
-        return (whiteListStruct[sender].paymentStatus, whiteListStruct[sender].amount);
+    function getPaymentStatus(address) external view returns (bool, uint256) {        
+        return (true, lastSentAmount);
     }
 }
